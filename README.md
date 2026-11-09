@@ -65,38 +65,9 @@ dotnet run
 
 La API queda disponible en `http://localhost:5011`. Tiene CORS habilitado para `http://localhost:4200`, que es donde corre el frontend.
 
-### Endpoints
+### Ejemplo de petición
 
-**Equipos**
-
-| Método | Ruta | Descripción |
-|---|---|---|
-| GET | `/api/team` | Lista todos los equipos |
-| GET | `/api/team/{id}` | Obtiene un equipo |
-| POST | `/api/team` | Crea un equipo |
-| PUT | `/api/team/{id}` | Edita un equipo |
-| DELETE | `/api/team/{id}` | Elimina un equipo |
-| GET | `/api/team/{id}/leagues` | Ligas en las que está inscrito el equipo |
-
-**Ligas**
-
-| Método | Ruta | Descripción |
-|---|---|---|
-| GET | `/api/league` | Lista todas las ligas |
-| GET | `/api/league/{id}` | Obtiene una liga |
-| POST | `/api/league` | Crea una liga |
-| PUT | `/api/league/{id}` | Edita una liga |
-| DELETE | `/api/league/{id}` | Elimina una liga |
-| GET | `/api/league/{id}/teams` | Equipos inscritos en la liga |
-
-**Inscripciones**
-
-| Método | Ruta | Descripción |
-|---|---|---|
-| POST | `/api/leagueteam/{leagueId}/{teamId}` | Inscribe un equipo en una liga |
-| DELETE | `/api/leagueteam/{leagueId}/{teamId}` | Retira un equipo de una liga |
-
-Ejemplo para crear un equipo:
+Crear un equipo:
 
 ```json
 POST /api/team
