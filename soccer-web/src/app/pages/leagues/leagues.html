@@ -1,0 +1,115 @@
+<header class="page-header">
+  <div>
+    <h1>Ligas</h1>
+  </div>
+</header>
+
+@if (error()) {
+  <div class="alert alert-danger">{{ error() }}</div>
+}
+
+<div class="layout">
+  <!-- Formulario -->
+  <section class="card">
+    <div class="card-header">
+      <h2>{{ editing() ? 'Editar liga' : 'Nueva liga' }}</h2>
+    </div>
+
+    <form class="card-body form" #leagueForm="ngForm" (ngSubmit)="save()">
+      <div class="field">
+        <label for="name">Nombre</label>
+        <input id="name" class="input" name="name" #name="ngModel" [(ngModel)]="form.name" required
+               pattern=".*[A-Za-zÁÉÍÓÚáéíóúÑñÜü].*[A-Za-zÁÉÍÓÚáéíóúÑñÜü].*" />
+        @if (name.invalid && name.touched) {
+          <span class="field-error">Debe tener al menos 2 letras.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="country">País</label>
+        <input id="country" class="input" name="country" #country="ngModel" [(ngModel)]="form.country" required
+               pattern=".*[A-Za-zÁÉÍÓÚáéíóúÑñÜü].*[A-Za-zÁÉÍÓÚáéíóúÑñÜü].*" />
+        @if (country.invalid && country.touched) {
+          <span class="field-error">Debe tener al menos 2 letras.</span>
+        }
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="startDate">Inicio</label>
+          <input id="startDate" class="input" name="startDate" type="date" [(ngModel)]="form.startDate" required />
+        </div>
+        <div class="field">
+          <label for="endDate">Fin</label>
+          <input id="endDate" class="input" name="endDate" type="date" [(ngModel)]="form.endDate" required />
+        </div>
+      </div>
+      @if (datesInvalid()) {
+        <span class="field-error">La fecha de inicio no puede ser posterior a la fecha de fin.</span>
+      }
+
+      <label class="checkbox">
+        <input name="enabled" type="checkbox" [(ngModel)]="form.enabled" />
+        Liga habilitada
+      </label>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="leagueForm.invalid || datesInvalid()">
+          {{ editing() ? 'Guardar cambios' : 'Registrar liga' }}
+        </button>
+        @if (editing()) {
+          <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+        }
+      </div>
+    </form>
+  </section>
+
+  <!-- Tabla -->
+  <section class="card">
+    <div class="card-header">
+      <h2>Ligas registradas</h2>
+      <p>{{ leagues().length }} {{ leagues().length === 1 ? 'liga' : 'ligas' }} en total</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>País</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (league of leagues(); track league.id) {
+            <tr>
+              <td class="muted">{{ league.id }}</td>
+              <td class="strong">{{ league.name }}</td>
+              <td>{{ league.country }}</td>
+              <td>{{ league.startDate }}</td>
+              <td>{{ league.endDate }}</td>
+              <td>
+                <span class="badge" [class.badge-success]="league.enabled" [class.badge-neutral]="!league.enabled">
+                  {{ league.enabled ? 'Habilitada' : 'Deshabilitada' }}
+                </span>
+              </td>
+              <td>
+                <div class="actions">
+                  <a class="btn btn-primary btn-sm" [routerLink]="['/leagues', league.id]">Equipos</a>
+                  <button type="button" class="btn btn-secondary btn-sm" (click)="edit(league)">Editar</button>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="remove(league)">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="7" class="empty">No hay ligas registradas.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

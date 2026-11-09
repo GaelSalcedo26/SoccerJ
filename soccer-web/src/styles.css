@@ -1,0 +1,213 @@
+/* ==========================================================
+   Estilos globales — se aplican a todas las pantallas
+   ========================================================== */
+
+/* ---------- Colores y medidas (variables) ---------- */
+:root {
+  --primary: #0b3d2e;        /* verde oscuro institucional */
+  --primary-hover: #0f5240;
+  --accent: #c9a227;         /* dorado */
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --border: #dde3e8;
+  --text: #1c2833;
+  --text-muted: #6b7a89;
+  --danger: #b42318;
+  --danger-bg: #fef3f2;
+  --success: #067647;
+  --success-bg: #ecfdf3;
+  --neutral-bg: #f2f4f7;
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  /* Foto del estadio de fondo, con una capa clara encima para que el contenido se lea bien.
+     "fixed" hace que la imagen se quede quieta al hacer scroll. */
+  background:
+    linear-gradient(rgba(244, 246, 248, 0.82), rgba(244, 246, 248, 0.9)),
+    url('/images/estadio-fondo.jpeg') center / cover no-repeat fixed;
+  background-color: var(--bg);
+}
+
+h1, h2, h3 { margin: 0; line-height: 1.25; }
+
+a { color: var(--primary); }
+
+/* ---------- Encabezado de cada página ---------- */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1.1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.page-header h1 { font-size: 1.6rem; font-weight: 700; }
+.page-header p { margin: 0.25rem 0 0; color: var(--text-muted); }
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
+
+/* ---------- Distribución: formulario a la izquierda, tabla a la derecha ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+}
+
+/* ---------- Tarjetas ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+.card-header h2 { font-size: 1.05rem; font-weight: 600; }
+.card-header p { margin: 0.2rem 0 0; font-size: 0.85rem; color: var(--text-muted); }
+.card-body { padding: 1.25rem; }
+
+/* ---------- Formularios ---------- */
+.form { display: grid; gap: 1rem; }
+
+.field { display: grid; gap: 0.35rem; }
+.field label { font-size: 0.85rem; font-weight: 600; }
+.field-error { font-size: 0.8rem; color: var(--danger); }
+
+.input,
+.select {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(11, 61, 46, 0.15);
+}
+.input.ng-invalid.ng-touched { border-color: var(--danger); }
+
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.checkbox input { width: 1rem; height: 1rem; accent-color: var(--primary); }
+
+.form-actions { display: flex; gap: 0.5rem; padding-top: 0.25rem; }
+
+/* ---------- Botones ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.55rem 1rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary { color: #fff; background: var(--primary); }
+.btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
+
+.btn-secondary { color: var(--text); background: var(--surface); border-color: var(--border); }
+.btn-secondary:hover:not(:disabled) { background: var(--neutral-bg); }
+
+.btn-danger { color: var(--danger); background: var(--surface); border-color: #f4c7c3; }
+.btn-danger:hover:not(:disabled) { background: var(--danger-bg); }
+
+.btn-sm { padding: 0.35rem 0.7rem; font-size: 0.8rem; }
+
+/* ---------- Tablas ---------- */
+.table-wrap { overflow-x: auto; }
+
+.table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.table th {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: #f9fafb;
+  border-bottom: 1px solid var(--border);
+}
+.table td {
+  padding: 0.8rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.table tbody tr:last-child td { border-bottom: none; }
+.table tbody tr:hover td { background: #fafbfc; }
+.table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.table .muted { color: var(--text-muted); }
+.table .strong { font-weight: 600; }
+.table .actions { display: flex; justify-content: flex-end; gap: 0.4rem; white-space: nowrap; }
+.table .empty { padding: 2.5rem 1rem; text-align: center; color: var(--text-muted); }
+
+/* ---------- Etiquetas de estado ---------- */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 999px;
+}
+.badge-success { color: var(--success); background: var(--success-bg); }
+.badge-neutral { color: var(--text-muted); background: var(--neutral-bg); }
+
+/* ---------- Mensajes ---------- */
+.alert {
+  margin-bottom: 1.25rem;
+  padding: 0.8rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+}
+.alert-danger { color: var(--danger); background: var(--danger-bg); border: 1px solid #f4c7c3; }
+
+.hint { margin: 0; font-size: 0.8rem; color: var(--text-muted); }

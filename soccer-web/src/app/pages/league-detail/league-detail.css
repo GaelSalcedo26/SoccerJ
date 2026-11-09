@@ -1,0 +1,21 @@
+/* Los estilos comunes están en src/styles.css; aquí solo lo propio del detalle */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  color: var(--text-muted);
+}
+.dot { opacity: 0.5; }
+
+.stat {
+  display: grid;
+  justify-items: end;
+  padding: 0.6rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.stat-value { font-size: 1.6rem; font-weight: 700; line-height: 1; color: var(--primary); }
+.stat-label { font-size: 0.75rem; color: var(--text-muted); }
