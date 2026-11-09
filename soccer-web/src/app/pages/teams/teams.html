@@ -1,0 +1,106 @@
+<header class="page-header">
+  <div>
+    <h1>Equipos</h1>
+  </div>
+</header>
+
+@if (error()) {
+  <div class="alert alert-danger">{{ error() }}</div>
+}
+
+<div class="layout">
+  <!-- Formulario -->
+  <section class="card">
+    <div class="card-header">
+      <h2>{{ editing() ? 'Editar equipo' : 'Nuevo equipo' }}</h2>
+    </div>
+
+    <form class="card-body form" #teamForm="ngForm" (ngSubmit)="save()">
+      <div class="field">
+        <label for="name">Nombre</label>
+        <input id="name" class="input" name="name" #name="ngModel" [(ngModel)]="form.name" required
+               pattern=".*[A-Za-zÁÉÍÓÚáéíóúÑñÜü].*[A-Za-zÁÉÍÓÚáéíóúÑñÜü].*" />
+        @if (name.invalid && name.touched) {
+          <span class="field-error">Debe tener al menos 2 letras.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="country">País</label>
+        <input id="country" class="input" name="country" #country="ngModel" [(ngModel)]="form.country" required
+               pattern=".*[A-Za-zÁÉÍÓÚáéíóúÑñÜü].*[A-Za-zÁÉÍÓÚáéíóúÑñÜü].*" />
+        @if (country.invalid && country.touched) {
+          <span class="field-error">Debe tener al menos 2 letras.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="players">Cantidad de jugadores</label>
+        <input id="players" class="input" name="playersQuantity" type="number" #players="ngModel"
+               [(ngModel)]="form.playersQuantity" required min="11" max="22" />
+        @if (players.invalid && players.touched) {
+          <span class="field-error">Debe estar entre 11 y 22.</span>
+        }
+      </div>
+
+      <label class="checkbox">
+        <input name="enabled" type="checkbox" [(ngModel)]="form.enabled" />
+        Equipo habilitado
+      </label>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="teamForm.invalid">
+          {{ editing() ? 'Guardar cambios' : 'Registrar equipo' }}
+        </button>
+        @if (editing()) {
+          <button type="button" class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+        }
+      </div>
+    </form>
+  </section>
+
+  <!-- Tabla -->
+  <section class="card">
+    <div class="card-header">
+      <h2>Equipos registrados</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>País</th>
+            <th class="num">Jugadores</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (team of teams(); track team.id) {
+            <tr>
+              <td class="muted">{{ team.id }}</td>
+              <td class="strong">{{ team.name }}</td>
+              <td>{{ team.country }}</td>
+              <td class="num">{{ team.playersQuantity }}</td>
+              <td>
+                <span class="badge" [class.badge-success]="team.enabled" [class.badge-neutral]="!team.enabled">
+                  {{ team.enabled ? 'Habilitado' : 'Deshabilitado' }}
+                </span>
+              </td>
+              <td>
+                <div class="actions">
+                  <button type="button" class="btn btn-secondary btn-sm" (click)="edit(team)">Editar</button>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="remove(team)">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="6" class="empty">No hay equipos registrados.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

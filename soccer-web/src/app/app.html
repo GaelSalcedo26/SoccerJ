@@ -1,0 +1,22 @@
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" routerLink="/">
+      <span class="brand-mark">
+        <img src="images/balon-icono.png" alt="Balón" />
+      </span>
+      <span class="brand-text">
+        <strong>Soccer</strong>
+        <small>Gestión de ligas y equipos</small>
+      </span>
+    </a>
+
+    <nav>
+      <a routerLink="/teams" routerLinkActive="active">Equipos</a>
+      <a routerLink="/leagues" routerLinkActive="active">Ligas</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <router-outlet />
+</main>

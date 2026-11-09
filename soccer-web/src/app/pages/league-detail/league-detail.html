@@ -1,0 +1,93 @@
+<a class="back-link" routerLink="/leagues">← Volver a ligas</a>
+
+@if (error()) {
+  <div class="alert alert-danger">{{ error() }}</div>
+}
+
+@if (league(); as l) {
+  <header class="page-header">
+    <div>
+      <h1>{{ l.name }}</h1>
+      <div class="meta">
+        <span>{{ l.country }}</span>
+        <span class="dot">•</span>
+        <span>Del {{ l.startDate }} al {{ l.endDate }}</span>
+        <span class="badge" [class.badge-success]="l.enabled" [class.badge-neutral]="!l.enabled">
+          {{ l.enabled ? 'Habilitada' : 'Deshabilitada' }}
+        </span>
+      </div>
+    </div>
+    <div class="stat">
+      <span class="stat-value">{{ enrolled().length }}</span>
+      <span class="stat-label">{{ enrolled().length === 1 ? 'equipo inscrito' : 'equipos inscritos' }}</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Inscripción -->
+    <section class="card">
+      <div class="card-header">
+        <h2>Inscribir equipo</h2>
+      </div>
+
+      <div class="card-body form">
+        @if (available().length > 0) {
+          <div class="field">
+            <label for="team">Equipo</label>
+            <select id="team" class="select" name="team" [(ngModel)]="selectedTeamId">
+              <option [ngValue]="null" disabled>Selecciona un equipo…</option>
+              @for (team of available(); track team.id) {
+                <option [ngValue]="team.id">{{ team.name }} ({{ team.country }})</option>
+              }
+            </select>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" [disabled]="selectedTeamId === null" (click)="enroll()">
+              Inscribir equipo
+            </button>
+          </div>
+        } @else {
+          <p class="hint">No hay más equipos habilitados para inscribir.</p>
+        }
+      </div>
+    </section>
+
+    <!-- Equipos inscritos -->
+    <section class="card">
+      <div class="card-header">
+        <h2>Equipos inscritos</h2>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nombre</th>
+              <th>País</th>
+              <th class="num">Jugadores</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (team of enrolled(); track team.id) {
+              <tr>
+                <td class="muted">{{ team.id }}</td>
+                <td class="strong">{{ team.name }}</td>
+                <td>{{ team.country }}</td>
+                <td class="num">{{ team.playersQuantity }}</td>
+                <td>
+                  <div class="actions">
+                    <button type="button" class="btn btn-danger btn-sm" (click)="withdraw(team)">Retirar</button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr><td colspan="5" class="empty">Esta liga todavía no tiene equipos inscritos.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+}

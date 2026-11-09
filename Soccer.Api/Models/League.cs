@@ -12,8 +12,8 @@ namespace Soccer.Api.Models
         [RegularExpression(@".*\p{L}.*\p{L}.*", ErrorMessage = "El país debe tener al menos 2 letras.")]
         public string Country { get; set; } = string.Empty;
 
-        public DateOnly StartDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
-        public DateOnly EndDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateTime EndDate { get; set; } = DateTime.Now;
 
         public bool Enabled { get; set; } = true;
 

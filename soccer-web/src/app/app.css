@@ -1,0 +1,71 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------- Barra superior ---------- */
+.topbar {
+  background: rgba(11, 61, 46, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 3px solid var(--accent);
+}
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #fff;
+  text-decoration: none;
+}
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  background: #fff;   /* fondo blanco para que el balón negro se vea */
+  border-radius: 8px;
+}
+.brand-mark img {
+  width: 22px;
+  height: 22px;
+}
+.brand-text { display: grid; line-height: 1.2; }
+.brand-text strong { font-size: 1.1rem; letter-spacing: 0.02em; }
+.brand-text small { font-size: 0.75rem; color: rgba(255, 255, 255, 0.7); }
+
+nav { display: flex; gap: 0.25rem; }
+nav a {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+nav a:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+nav a.active { color: var(--primary); background: #fff; font-weight: 600; }
+
+/* ---------- Contenido ---------- */
+.container {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .brand-text small { display: none; }
+  .topbar-inner, .container { padding-left: 1rem; padding-right: 1rem; }
+}
