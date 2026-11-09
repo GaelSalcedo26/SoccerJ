@@ -1,140 +1,69 @@
 # Soccer
 
-Aplicación para administrar un catálogo de ligas y equipos de fútbol. Permite registrar, editar y eliminar ligas y equipos, e inscribir equipos en una o varias ligas (relación muchos a muchos).
+Web application to manage a catalog of soccer leagues and teams. Teams can be registered in different leagues, and leagues can have different teams.
 
-El proyecto está dividido en tres partes:
+## Data Base
 
-- **Database**: script de SQL Server para crear la base de datos.
-- **Soccer.Api**: API REST hecha en ASP.NET Core (.NET 10) con Entity Framework Core.
-- **soccer-web**: frontend hecho en Angular 22.
+This project contains a script called `create_db.sql` (inside the `Database` folder) to create the database and the tables needed for the correct functionality of the web app.
 
-## Requisitos
+Run it in SQL Server Management Studio connected to `localhost\SQLEXPRESS`.
 
-- SQL Server 2022 (se usó la edición Express) y SQL Server Management Studio
-- .NET SDK 10
-- Node.js 26 y npm
-- Angular CLI 22 (`npm install -g @angular/cli`)
+## Back-end
 
-## Reglas del negocio
+This project was generated using ASP.NET Core (.NET 10) with Entity Framework Core for more efficient database management using an ORM.
 
-Estas reglas se validan en la base de datos, en la API y en los formularios del frontend:
+### Development server
 
-- Un equipo debe tener entre 11 y 22 jugadores.
-- En una liga, la fecha de inicio no puede ser posterior a la fecha de fin.
-- El nombre y el país de ligas y equipos deben tener al menos 2 letras.
-- Ningún campo acepta valores nulos.
-- `Enabled` vale 1 por defecto y las fechas de la liga toman la fecha actual por defecto.
-- Un equipo no se puede inscribir dos veces en la misma liga.
-- Al eliminar una liga o un equipo se eliminan también sus inscripciones.
+To start a local development server, run:
 
-## Base de datos
-
-Tablas:
-
-| Tabla | Descripción |
-|---|---|
-| `League` | Ligas: nombre, país, fecha de inicio, fecha de fin y si está habilitada |
-| `Team` | Equipos: nombre, país, cantidad de jugadores y si está habilitado |
-| `League_Team` | Tabla intermedia entre ligas y equipos (clave primaria compuesta) |
-
-Para crearla:
-
-1. Abrir SQL Server Management Studio y conectarse a `localhost\SQLEXPRESS` con autenticación de Windows.
-2. Abrir el archivo `Database/create_db.sql` y ejecutarlo.
-
-## API
-
-### Configuración
-
-La cadena de conexión está en `Soccer.Api/appsettings.json`:
-
-```json
-"ConnectionStrings": {
-  "Soccer": "Server=localhost\\SQLEXPRESS;Database=Soccer;Trusted_Connection=True;TrustServerCertificate=true"
-}
-```
-
-Si la instancia de SQL Server tiene otro nombre, hay que cambiarla ahí.
-
-### Ejecutar
-
-```
+```bash
 cd Soccer.Api
 dotnet run
 ```
 
-La API queda disponible en `http://localhost:5011`. Tiene CORS habilitado para `http://localhost:4200`, que es donde corre el frontend.
+The API will be available at `http://localhost:5011/`.
 
-### Ejemplo de petición
+If your SQL Server instance has a different name, update the connection string in `Soccer.Api/appsettings.json`.
 
-Crear un equipo:
+## Front-end
 
-```json
-POST /api/team
-{
-  "name": "Club América",
-  "country": "México",
-  "playersQuantity": 18,
-  "enabled": true
-}
-```
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.6.
 
-Respuestas:
+### Install dependencies
 
-- `200 OK` / `201 Created` / `204 No Content` cuando la operación es correcta.
-- `400 Bad Request` cuando no se cumple alguna regla (por ejemplo, 5 jugadores o fechas invertidas). La respuesta incluye el mensaje de cada campo.
-- `404 Not Found` cuando la liga o el equipo no existe.
-- `409 Conflict` cuando se intenta inscribir un equipo que ya está en la liga.
+Before running the project for the first time, run:
 
-El archivo `Soccer.Api/Soccer.Api.http` sirve para probar las peticiones desde VS Code.
-
-## Frontend
-
-### Instalar dependencias (solo la primera vez)
-
-```
+```bash
 cd soccer-web
 npm install
 ```
 
-### Ejecutar
+### Development server
 
-```
+To start a local development server, run:
+
+```bash
 ng serve
 ```
 
-Abrir `http://localhost:4200`. La API debe estar corriendo al mismo tiempo.
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-### Pantallas
+The back-end must be running at the same time.
 
-- **Equipos**: formulario para registrar o editar equipos y tabla con los equipos registrados.
-- **Ligas**: formulario para registrar o editar ligas y tabla con las ligas registradas. Desde la tabla se entra al detalle de cada liga con el botón *Equipos*.
-- **Detalle de liga**: muestra los equipos inscritos en la liga, permite inscribir equipos nuevos y retirar los que ya están.
+### Building
 
-## Estructura
+To build the project run:
 
-```
-MiSoccer/
-├── Database/
-│   └── create_db.sql
-├── Soccer.Api/
-│   ├── Controllers/      TeamController, LeagueController, LeagueTeamController
-│   ├── Data/             SoccerDbContext (mapeo de las tablas)
-│   ├── Models/           League, Team, LeagueTeam
-│   ├── Program.cs        Configuración de EF Core y CORS
-│   └── appsettings.json  Cadena de conexión
-└── soccer-web/
-    └── src/
-        ├── styles.css    Estilos generales
-        └── app/
-            ├── models/   Interfaces League y Team
-            ├── services/ Llamadas a la API
-            └── pages/    teams, leagues, league-detail
+```bash
+ng build
 ```
 
-## Orden para levantar el proyecto
+This will compile your project and store the build artifacts in the `dist/` directory.
 
-1. Ejecutar `Database/create_db.sql` en SQL Server.
-2. Correr la API con `dotnet run` dentro de `Soccer.Api`.
-3. Correr el frontend con `ng serve` dentro de `soccer-web`.
-4. Entrar a `http://localhost:4200`.
+### Running unit tests
+
+To execute unit tests with the Vitest test runner, use the following command:
+
+```bash
+ng test
+```
